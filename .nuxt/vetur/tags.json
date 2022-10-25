@@ -1,7 +1,4 @@
 {
-  "Tutorial": {
-    "description": "Auto imported from components/Tutorial.vue"
-  },
   "Leniologo": {
     "description": "Auto imported from components/leniologo.vue"
   },
@@ -10,6 +7,9 @@
   },
   "IconsCubicBezier": {
     "description": "Auto imported from components/icons/cubicBezier.vue"
+  },
+  "IconsDelete": {
+    "description": "Auto imported from components/icons/delete.vue"
   },
   "IconsDuration": {
     "description": "Auto imported from components/icons/duration.vue"
@@ -50,7 +50,49 @@
   "IconsSpacing": {
     "description": "Auto imported from components/icons/spacing.vue"
   },
+  "IconsToken": {
+    "description": "Auto imported from components/icons/token.vue"
+  },
   "IconsUndefined": {
     "description": "Auto imported from components/icons/undefined.vue"
+  },
+  "PreviewsColor": {
+    "description": "Auto imported from components/previews/color.vue"
+  },
+  "PreviewsDuration": {
+    "description": "Auto imported from components/previews/duration.vue"
+  },
+  "PreviewsFontFamily": {
+    "description": "Auto imported from components/previews/fontFamily.vue"
+  },
+  "PreviewsFontSize": {
+    "description": "Auto imported from components/previews/fontSize.vue"
+  },
+  "PreviewsFontWeight": {
+    "description": "Auto imported from components/previews/fontWeight.vue"
+  },
+  "PreviewsLetterSpacing": {
+    "description": "Auto imported from components/previews/letterSpacing.vue"
+  },
+  "PreviewsLineHeight": {
+    "description": "Auto imported from components/previews/lineHeight.vue"
+  },
+  "PreviewsMediaQuery": {
+    "description": "Auto imported from components/previews/mediaQuery.vue"
+  },
+  "PreviewsOpacity": {
+    "description": "Auto imported from components/previews/opacity.vue"
+  },
+  "PreviewsRadius": {
+    "description": "Auto imported from components/previews/radius.vue"
+  },
+  "PreviewsShadow": {
+    "description": "Auto imported from components/previews/shadow.vue"
+  },
+  "PreviewsSpacing": {
+    "description": "Auto imported from components/previews/spacing.vue"
+  },
+  "PreviewsWrapper": {
+    "description": "Auto imported from components/previews/wrapper.vue"
   }
 }
