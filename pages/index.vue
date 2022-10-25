@@ -1,12 +1,11 @@
 <template>
   <div>
     <nav>
-      <h1><svg style="width: 24px;height: auto;top: 6px;position: relative;margin-right: 5px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path fill="#e2d372" d="M24 44 6 33.7V13.75L24 4l18 9.75V33.7Zm-5.7-24.9q1.15-1.15 2.625-1.875Q22.4 16.5 24 16.5t3.075.725q1.475.725 2.625 1.875l7.65-4.5L24 7.5l-13.35 7.1Zm4.2 20.6v-8.35q-2.6-.7-4.3-2.7-1.7-2-1.7-4.65 0-.55.075-1.125t.275-1.125L9 17.1v14.85ZM24 28.5q1.9 0 3.2-1.3 1.3-1.3 1.3-3.2 0-1.9-1.3-3.2-1.3-1.3-3.2-1.3-1.9 0-3.2 1.3-1.3 1.3-1.3 3.2 0 1.9 1.3 3.2 1.3 1.3 3.2 1.3Zm1.5 11.2L39 31.95V17.1l-7.85 4.65q.2.55.275 1.125.075.575.075 1.125 0 2.65-1.7 4.65-1.7 2-4.3 2.7Z"/></svg>Design Tokens Generator</h1>
+      <h1><icons-token/>Design Tokens Generator</h1>
+
       <div class="top-actions">
         <a target="_blank" href="https://www.leniolabs.com/services/" style="background: transparent;border: 2px solid #e1d472;color:#e1d472;">Hire our Team!</a>
-
         <button style="opacity: 0.5;background: transparent;border: 2px solid #54c4c9;color:#54c4c9;">Share URL</button>
-
         <button style="opacity: 0.5;background:#54c4c9;border: 2px solid #54c4c9">Download Tokens</button>
       </div>
     </nav>
@@ -25,8 +24,7 @@
             </a>
           </div>
         </div>
-              <leniologo/>
-
+        <leniologo/>
       </div>
 
       <!-- Content -->
@@ -35,9 +33,7 @@
         <h2>{{ sets[selectedToken].title }}</h2>
       
           <div class="token-group">
-           
-            <button class="add-retoken" @click="addToken()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M22.5 34h3v-8.5H34v-3h-8.5V14h-3v8.5H14v3h8.5ZM9 42q-1.2 0-2.1-.9Q6 40.2 6 39V9q0-1.2.9-2.1Q7.8 6 9 6h30q1.2 0 2.1.9.9.9.9 2.1v30q0 1.2-.9 2.1-.9.9-2.1.9Zm0-3h30V9H9v30ZM9 9v30V9Z"/></svg> New Token</button>
-
+            <button class="add-retoken" @click="addToken()">New Token</button>
           </div>
 
 
@@ -46,16 +42,16 @@
           <div class="single-token" :id="token.$type" v-for="(token, e) in sets[selectedToken].tokens" :key="`token-${e}`">
 
             <div class="actions">
-              <button class="add-token" > <svg style="opacity:0;" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='transparent' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'><line x1="20" y1="50" x2="80" y2="50" /> <line x1="50" y1="20" x2="50" y2="80" /></svg>
-              <select name="tokentypes" @change="changeType($event,token)">
-              <option v-for="type in tokenTypes" :selected="type === token.$type" :value="type" :key="`${type}`" >{{type}}</option>
-            </select> </button>
+              <button class="add-token"> 
+                <svg style="opacity:0;" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='transparent' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'><line x1="20" y1="50" x2="80" y2="50" /> <line x1="50" y1="20" x2="50" y2="80" /></svg>
+                <select name="tokentypes" @change="changeType($event,token)">
+                  <option v-for="type in tokenTypes" :selected="type === token.$type" :value="type" :key="`${type}`" >{{type}}</option>
+                </select>
+              </button>
 
               <button class="add-token" @click="addVariant(e)"> <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='#0E1A27' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'><line x1="20" y1="50" x2="80" y2="50" /> <line x1="50" y1="20" x2="50" y2="80" /></svg> Add</button>
 
-              <!--<button><svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48'><path d="M6 22.5V6h16.5v16.5ZM6 42V25.5h16.5V42Zm19.5-19.5V6H42v16.5Zm0 19.5V25.5H42V42ZM9 19.5h10.5V9H9Zm19.5 0H39V9H28.5Zm0 19.5H39V28.5H28.5ZM9 39h10.5V28.5H9Zm19.5-19.5Zm0 9Zm-9 0Zm0-9Z"/></svg></button>-->
-
-              <button @click="$delete(sets[selectedToken].tokens, e)"><svg xmlns="http://www.w3.org/2000/svg" viewBox='0 0 48 48'><path d="M13.05 42q-1.25 0-2.125-.875T10.05 39V10.5H8v-3h9.4V6h13.2v1.5H40v3h-2.05V39q0 1.2-.9 2.1-.9.9-2.1.9Zm21.9-31.5h-21.9V39h21.9Zm-16.6 24.2h3V14.75h-3Zm8.3 0h3V14.75h-3Zm-13.6-24.2V39Z"/></svg></button>
+              <button @click="$delete(sets[selectedToken].tokens, e)"><icons-delete/></button>
             </div>
 
             <h3><component :is="`icons-${token.$type}`"/> <input type="text" v-model="token.$name" /> <i>({{ token.tokens.length }})</i></h3> 
@@ -63,74 +59,10 @@
             <div class="variants" v-if="token.tokens.length > 0">
               <div class="single-variant" v-for="(variant, a) in token.tokens" :key="`variant-${a}`">
                 
-                
-                
-                <div class="variant-example" v-if="token.$type === 'color' ">
-                  <div class="color-cell" :style="`background:${variant.$value};border:1px solid #ddd;`">
-                  </div>
-                </div>
-                <div class="variant-example" v-if="token.$type === 'opacity' " style="display: flex;align-items: center;justify-content: center;">
-                  <div class="color-cell" :style="`opacity:${variant.$value};background:rgb(222, 0, 99);position:relative;height:75%;width:75%;`">
-                  </div>                  
-                  <div class="color-cell" :style="`background:linear-gradient(45deg,rgba(43,40,38,.1) 25%,transparent 0),linear-gradient(-45deg,rgba(43,40,38,.1) 25%,transparent 0),linear-gradient(45deg,transparent 75%,rgba(43,40,38,.1) 0),linear-gradient(-45deg,transparent 75%,rgba(43,40,38,.1) 0);background-size: 12px 12px;background-position: 0 0,0 6px,6px -6px,-6px 0;`">
-                  </div>
-                </div>
- 
-<!--                 <div class="variant-example" v-if="token.$type === 'lineHeight' ">
-                  <div class="color-cell" :style="`line-height:${variant.$value};color:#888;display: flex;align-items: center;justify-content: center;`">
-                    —<br>—
-                  </div>                  
-            
-                </div> -->
+                <previews-wrapper>  
+                  <component :is="`previews-${token.$type}`" :variant="variant"/> 
+                </previews-wrapper>  
 
-                <div class="variant-example" v-if="token.$type === 'radius' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`border-radius:${variant.$value};background:#DE0063;opacity: 0.25;height:75%;width:75%;position: relative;`">
-                   </div>                  
-            
-                </div>
-
-                <div class="variant-example" v-if="token.$type === 'spacing' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`width:${variant.$value};background:#DE0063;opacity: 0.25;border-radius:0;height:width:${variant.$value};position: relative;`">
-                   </div>                  
-                </div>
-
-                <div class="variant-example" v-if="token.$type === 'fontWeight' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`font-weight:${variant.$value};color:#666;font-size:18px;position: relative;flex:1;max-width: max-content;max-height: 22px;`">
-                   Aa</div>                  
-                </div>
-
-                <div class="variant-example" v-if="token.$type === 'letterSpacing' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`letter-spacing:${variant.$value};color:#666;font-size:14px;position: relative;flex:1;max-width: max-content;max-height: 18px;`">
-                   Abcde</div>                  
-                </div>
-
-                <div class="variant-example" v-if="token.$type === 'duration' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`background:#DE0063;opacity: 0.25;height:25%;width:25%;border-radius:50%;position: relative;animation:run ${variant.$value} linear infinite alternate`">
-                   </div>                  
-            
-                </div>
-
-                <div class="variant-example" v-if="token.$type === 'shadow' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`background:transparent;height:50%;width:50%;border-radius:0%;position: relative;box-shadow: ${variant.$value}`">
-                   </div>                  
-            
-                </div>
-
-                <div class="variant-example" v-if="token.$type === 'fontFamily' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`font-family:${variant.$value};color:#666;font-size:18px;position: relative;flex:1;max-width: max-content;max-height: 18px;`">
-                   Aa</div>                     
-            
-                </div>     
-                <div class="variant-example" v-if="token.$type === 'fontSize' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`font-size:${variant.$value};color:#666;position: relative;flex:1;max-width: max-content;height:initial`">
-                   Aa</div>                     
-            
-                </div>            
-                <div class="variant-example" v-if="token.$type === 'mediaQuery' " style="display: flex;align-items: center;justify-content: center;border:1px solid #ddd;">
-                  <div class="color-cell" :style="`font-size:10px;color:#666;position: relative;flex:1;max-width: max-content;height:initial;`">
-                  {{variant.$value}}</div>                     
-            
-                </div>                                              
                 <input type="text" v-model="variant.$name" placeholder="Name">
                 <input type="text" v-model="variant.$value" placeholder="Value">
                 <input type="text" v-model="variant.$description" placeholder="Description">
@@ -138,11 +70,7 @@
               </div>
             </div>
 
-
-
           </div>
-
-
 
         </div>
       </div>
@@ -153,21 +81,16 @@
         <div style="position:relative;">
 
           <div class="export-options">
-            <div 
-              v-for="(option, i) in exportOptions" 
-              :key="`abc-${i}`"
-              @click="selectedOption = i"
-              :class="{'active': selectedOption === i}"
-              >
+            <div v-for="(option, i) in exportOptions" :key="`abc-${i}`" @click="selectedOption = i" :class="{'active': selectedOption === i}">
               {{option}}
             </div>
           </div>
           <client-only>
             <pre>
-              <code v-if="selectedOption === 0" v-highlight class="json" v-html="JSON.stringify(transformW3C(),null,2)">   </code>
-              <code v-if="selectedOption === 1" v-highlight class="css" v-html="transformCSSvars('CSS')">   </code>
-              <code v-if="selectedOption === 2" v-highlight class="scss" v-html="transformCSSvars('SASS')">   </code>
-              <code v-if="selectedOption === 3" v-highlight class="css" v-html="transformDSP()">   </code>
+              <code v-if="selectedOption === 0" v-highlight class="json" v-html="JSON.stringify(transformW3C(),null,2)"></code>
+              <code v-if="selectedOption === 1" v-highlight class="css" v-html="transformCSSvars('CSS')"></code>
+              <code v-if="selectedOption === 2" v-highlight class="scss" v-html="transformCSSvars('SASS')"></code>
+              <code v-if="selectedOption === 3" v-highlight class="css" v-html="transformDSP()"></code>
             </pre>
           </client-only>
 
@@ -194,9 +117,7 @@ export default {
       sets: [
         { 
           title: "Create New",
-          tokens: [
- 
-          ]
+          tokens: []
         },             
         { 
           title: "Sample Tokens",
@@ -496,27 +417,16 @@ ${newObj.flat(1).join(';\n')}
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap');
 
 @keyframes run {
-    0% {
-       transform: translateX(125%) translateY(-125%);
-    }
-
-    100% {
-       transform: translateX(-125%) translateY(100%);
-    }
+  0% { transform: translateX(125%) translateY(-125%); }
+  100% { transform: translateX(-125%) translateY(100%); }
 }
 
-::selection {
-  background: rgba(172,206,247,0.25) ; /* WebKit/Blink Browsers */
-}
-::-moz-selection {
- background: rgba(172,206,247,0.25) ;}
+::selection { background: rgba(172,206,247,0.25); }
+::-moz-selection { background: rgba(172,206,247,0.25); }
 
-html {
-  box-sizing: border-box;
-}
-*, *:before, *:after {
-  box-sizing: inherit;
-}
+html { box-sizing: border-box; }
+
+*, *:before, *:after { box-sizing: inherit; }
 
 body {
   margin: 0;
@@ -530,6 +440,7 @@ body {
 input {
   font-size: 14px;
 }
+
 nav {
   background: #000;
   height: 60px;
@@ -571,10 +482,10 @@ h3 {
   align-items: center;
   input {
     border: 0;
-  font-weight: 500;
-  font-family: montserrat, Arial, Helvetica, sans-serif;
-  color: #1e1e1e;
-  font-size: 18px;    
+    font-weight: 500;
+    font-family: montserrat, Arial, Helvetica, sans-serif;
+    color: #1e1e1e;
+    font-size: 18px;    
   }
   &:last-child {
     margin: 0;
@@ -988,25 +899,6 @@ button.add-token {
     padding: 35px 20px;
     text-align: center;
   }
-}
-
-
-.variant-example {
-  max-width: 40px;
-  min-width: 40px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 2px;
-  .color-cell {
-    height: 100%;
-    position: absolute;
-    border-radius: 2px;
-
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-  }  
 }
 
 .top-actions {

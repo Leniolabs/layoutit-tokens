@@ -1,20 +1,3 @@
 <template>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M14.5 40V13H4V8h26v5H19.5v27Zm18 0V23H26v-5h18v5h-6.5v17Z"/></svg>
 </template>
-
-<script>
-export default {
-  props: [],
-  name: "icons-fontWeight",
-  data() {
-    return {
-     }
-  }
-}
-</script>
-
-<style scoped>
- 
-
-</style>
- 
