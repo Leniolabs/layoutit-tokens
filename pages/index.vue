@@ -905,6 +905,9 @@ button.add-token {
   position: absolute;
   top: 12px;
   right: 15px;
+  @media only screen and (max-width: 1120px) {
+    display: none;
+  }  
   a,
   button { 
     display:inline-block;

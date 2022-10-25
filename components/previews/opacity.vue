@@ -1,7 +1,7 @@
 <template>
     <div style="display:contents">
-        <div class="opacity-cell" :style="`opacity:${variant.$value};`"></div>                  
         <div class="transparency-cell"></div>    
+        <div class="opacity-cell" :style="`opacity:${variant.$value};`"></div>                  
     </div>
 </template>
 <script>
@@ -22,7 +22,7 @@ export default {
     margin-right: auto;
     left: 0;
     right: 0;
-    text-align: center;                  
+    text-align: center;      ;            
 }
 .transparency-cell {
     height: 100%;
