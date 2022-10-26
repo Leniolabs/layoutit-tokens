@@ -793,7 +793,7 @@ button.add-token {
     max-width: 92px;
     border: 0;
     border-radius: 2px;
- 
+    background: #fff;
    }
 }
 
