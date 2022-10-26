@@ -3,7 +3,6 @@
     "name": "index",
     "path": "/",
     "component": "/Users/acapeletto/fed/tokens2/pages/index.vue",
-    "chunkName": "pages/index",
-    "_name": "_7f76bdb1"
+    "chunkName": "pages/index"
   }
 ]

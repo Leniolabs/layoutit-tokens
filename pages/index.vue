@@ -91,6 +91,7 @@
               <code v-if="selectedOption === 1" v-highlight class="css" v-html="transformCSSvars('CSS')"></code>
               <code v-if="selectedOption === 2" v-highlight class="scss" v-html="transformCSSvars('SASS')"></code>
               <code v-if="selectedOption === 3" v-highlight class="css" v-html="transformDSP()"></code>
+              <code v-if="selectedOption === 4" v-highlight class="css" v-html="transformTheo()"></code>
             </pre>
           </client-only>
 
@@ -113,7 +114,7 @@ export default {
       selectedToken: 1,
       selectedOption: 0,
       tokenTypes: ['color','spacing','fontFamily','fontWeight','fontStyle','fontSize','duration','cubicBezier','letterSpacing','lineHeight','opacity','shadow','mediaQuery','z-index','radius','other'],
-      exportOptions: ['W3C','CSS','SASS','DSP'],
+      exportOptions: ['W3C','CSS','SASS','DSP','Theo'],
       sets: [
         { 
           title: "Create New",
@@ -186,9 +187,13 @@ export default {
               $type: "duration",
               $name: "Duration",
               "tokens": [{
+                  $name: "paused",
+                  "$value": "paused"
+                },
+                {
                   $name: "slow",
                   "$value": "3s"
-                },
+                },                
                 {
                   $name: "fast",
                   "$value": "500ms"
@@ -200,15 +205,15 @@ export default {
               $name: "Radius",
               "tokens": [
                 {
-                  $name: "radius-circle",
+                  $name: "circle",
                   "$value": "50%"
                 },                       
                 {
-                  $name: "radius-large",
+                  $name: "large",
                   "$value": "8px"
                 },
                 {
-                  $name: "radius-small",
+                  $name: "small",
                   "$value": "2px",
                 },                         
               ]
@@ -314,15 +319,15 @@ export default {
               $type: "lineHeight",
               $name: "Line Height",
               "tokens": [{
-                  $name: "line-height-heading",
+                  $name: "heading",
                   "$value": "1.25"
                 },
                 {
-                  $name: "line-height-reset",
+                  $name: "reset",
                   "$value": "1"
                 },
                 {
-                  $name: "line-height-text",
+                  $name: "text",
                   "$value": "1.5"
                 },
               ]
@@ -339,7 +344,10 @@ export default {
   methods: {
     transformDSP() {
       return "{ DSP Support coming soon! }"
-    },        
+    },  
+    transformTheo() {
+      return "{ Theo Support coming soon! }"
+    },             
     transformW3C() {
       var newObj = {}
       var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
@@ -778,15 +786,6 @@ button.add-token {
       background: #eee;
     }
   }
-
-  select {
-    padding: 9px 15px;
-    padding-left: 5px;
-    max-width: 92px;
-    border: 0;
-    border-radius: 2px;
- 
-   }
 }
 
 
@@ -866,6 +865,7 @@ button.add-token {
     color: #666;
     max-width: 125px;
     text-align: right;
+    background: #fff;
     cursor: pointer;
     &:hover {
       color: #333;
