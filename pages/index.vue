@@ -786,15 +786,6 @@ button.add-token {
       background: #eee;
     }
   }
-
-  select {
-    padding: 9px 15px;
-    padding-left: 5px;
-    max-width: 92px;
-    border: 0;
-    border-radius: 2px;
-    background: #fff;
-   }
 }
 
 
@@ -874,6 +865,7 @@ button.add-token {
     color: #666;
     max-width: 125px;
     text-align: right;
+    background: #fff;
     cursor: pointer;
     &:hover {
       color: #333;
