@@ -1,6 +1,6 @@
 <template>
   <div class="leniologo">
-    <img src="https://i.imgur.com/QoxHIFN.png" alt="">
+    <a href="https://leniolabs.com"><img src="https://i.imgur.com/QoxHIFN.png" alt=""></a>
     <div>Built with <br> <span style="color:#f44336;">&hearts;</span> & <span>✨</span></div>
   </div>
 </template>
@@ -17,11 +17,17 @@
   gap: 0;
   color: #ddd;
   padding-right: 0 !important;
+  a {
+    text-decoration: none;
+    opacity: 0.8;
+    &:hover {
+      opacity: 1;
+    }
+  }
   img {
     height: 55px;
     width: auto;
     margin-right: 20px;
-    opacity: 0.9;
   }
   div {
     font-size: 14px;
