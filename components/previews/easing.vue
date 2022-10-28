@@ -1,5 +1,5 @@
 <template>
-    <div :style="`width:${variant.$value};`"></div>                  
+    <div :style="`animation: fill 3s ${variant.$value} infinite alternate`"></div>         
 </template>
 
 <script>
@@ -10,10 +10,13 @@ export default {
 
 <style lang="scss" scoped>
 div {
-    background:#DE0063;
+    background: #DE0063;
     opacity: 0.25;
-    border-radius: 0;
-    position: relative;
+    width: 100%;
     height: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
 }
 </style>
