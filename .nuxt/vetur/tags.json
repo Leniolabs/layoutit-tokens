@@ -62,6 +62,9 @@
   "PreviewsDuration": {
     "description": "Auto imported from components/previews/duration.vue"
   },
+  "PreviewsEasing": {
+    "description": "Auto imported from components/previews/easing.vue"
+  },
   "PreviewsFontFamily": {
     "description": "Auto imported from components/previews/fontFamily.vue"
   },

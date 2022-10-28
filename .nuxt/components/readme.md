@@ -27,6 +27,7 @@ You can directly use them in pages and other components without the need to impo
 - `<IconsUndefined>` | `<icons-undefined>` (components/icons/undefined.vue)
 - `<PreviewsColor>` | `<previews-color>` (components/previews/color.vue)
 - `<PreviewsDuration>` | `<previews-duration>` (components/previews/duration.vue)
+- `<PreviewsEasing>` | `<previews-easing>` (components/previews/easing.vue)
 - `<PreviewsFontFamily>` | `<previews-font-family>` (components/previews/fontFamily.vue)
 - `<PreviewsFontSize>` | `<previews-font-size>` (components/previews/fontSize.vue)
 - `<PreviewsFontWeight>` | `<previews-font-weight>` (components/previews/fontWeight.vue)

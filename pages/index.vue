@@ -29,7 +29,7 @@
 
       <!-- Content -->
 
-      <div class="content">
+      <div class="content" v-if="mode === 'table'">
         <h2>{{ sets[selectedToken].title }}</h2>
       
           <div class="token-group">
@@ -75,6 +75,52 @@
         </div>
       </div>
 
+
+      <div class="content" v-if="mode === 'grid'">
+        <h2>{{ sets[selectedToken].title }}</h2>
+      
+          <div class="token-group">
+            <button class="add-retoken" @click="addToken()">New Token</button>
+          </div>
+
+
+        <div class="content-tokens" :key="componentKey">
+
+          <div class="single-token" :id="token.$type" v-for="(token, e) in sets[selectedToken].tokens" :key="`token-${e}`">
+
+            <div class="actions">
+              <button class="add-token"> 
+                <svg style="opacity:0;" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='transparent' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'><line x1="20" y1="50" x2="80" y2="50" /> <line x1="50" y1="20" x2="50" y2="80" /></svg>
+                <select name="tokentypes" @change="changeType($event,token)">
+                  <option v-for="type in tokenTypes" :selected="type === token.$type" :value="type" :key="`${type}`" >{{type}}</option>
+                </select>
+              </button>
+
+              <button class="add-token" @click="addVariant(e)"> <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='#0E1A27' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'><line x1="20" y1="50" x2="80" y2="50" /> <line x1="50" y1="20" x2="50" y2="80" /></svg> Add</button>
+
+              <button @click="$delete(sets[selectedToken].tokens, e)"><icons-delete/></button>
+            </div>
+
+            <h3><component :is="`icons-${token.$type}`"/> <input type="text" v-model="token.$name" /> <i>({{ token.tokens.length }})</i></h3> 
+
+            <div class="variants" v-if="token.tokens.length > 0">
+              <div class="single-variant" v-for="(variant, a) in token.tokens" :key="`variant-${a}`">
+                
+                <previews-wrapper>  
+                  <component :is="`previews-${token.$type}`" :variant="variant"/> 
+                </previews-wrapper>  
+
+                <input type="text" v-model="variant.$name" placeholder="Name">
+                <input type="text" v-model="variant.$value" placeholder="Value">
+                <input type="text" v-model="variant.$description" placeholder="Description">
+                <button @click="$delete(token.tokens, a)"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='#0E1A27' stroke-width='8' stroke-linecap='round' stroke-linejoin='round'><line x1="15" y1="15" x2="85" y2="85" /> <line x1="85" y1="15" x2="15" y2="85" /></svg></button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
       <!-- Output -->
 
       <div class="output" :key="`output-${componentKey}`">
@@ -113,6 +159,7 @@ export default {
       componentKey: 0,
       selectedToken: 1,
       selectedOption: 0,
+      mode: 'table',
       tokenTypes: ['color','spacing','fontFamily','fontWeight','fontStyle','fontSize','duration','cubicBezier','letterSpacing','lineHeight','opacity','shadow','mediaQuery','z-index','radius','other'],
       exportOptions: ['W3C','CSS','SASS','DSP','Theo'],
       sets: [
@@ -199,7 +246,24 @@ export default {
                   "$value": "500ms"
                 },
               ]
-            },              
+            },         
+            {
+              $type: "easing",
+              $name: "Easing",
+              "tokens": [{
+                  $name: "paused",
+                  "$value": "paused"
+                },
+                {
+                  $name: "slow",
+                  "$value": "3s"
+                },                
+                {
+                  $name: "fast",
+                  "$value": "500ms"
+                },
+              ]
+            },                         
             {
               $type: "radius",
               $name: "Radius",
@@ -398,6 +462,9 @@ ${newObj.flat(1).join(';\n')}
     updateTitle(event,token) {
       token.$name = event.target.innerHTML
     },    
+    changeMode(event,token) {
+      token.$name = event.target.innerHTML
+    },        
     addToken() {
       var tempToken = {
         "$type": "other",
