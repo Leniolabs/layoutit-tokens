@@ -160,7 +160,7 @@
 
 <script>
 
-
+import yaml from "js-yaml";
 
 
 export default {
@@ -434,8 +434,7 @@ export default {
           }
         }
       }
-      // TODO add support for YAML format
-      if (format === "YAML") return "To be developed...";
+      if (format === "YAML") return yaml.dump(newObj);
       return JSON.stringify(newObj, null, 2);
     },
     transformW3C() {
