@@ -147,7 +147,7 @@
                   <label for="one">YAML</label>
                 </div>
               </div>
-              <code v-highlight class="json" v-html="transformTheo(exportFormats.theo)"></code>
+              <code v-highlight :class="exportFormats.theo" v-html="transformTheo(exportFormats.theo)"></code>
             </pre>
           </client-only>
 
