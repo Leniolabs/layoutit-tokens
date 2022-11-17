@@ -263,17 +263,14 @@ export default {
             {
               $type: "easing",
               $name: "Easing",
-              "tokens": [{
-                  $name: "paused",
-                  "$value": "paused"
-                },
+              "tokens": [
                 {
-                  $name: "slow",
-                  "$value": "3s"
-                },
+                  $name: "easeInSine",
+                  "$value": "cubic-bezier(0.12, 0, 0.39, 0)"
+                },                
                 {
-                  $name: "fast",
-                  "$value": "500ms"
+                  $name: "easeOutSine",
+                  "$value": "cubic-bezier(0.61, 1, 0.88, 1)500ms"
                 },
               ]
             },
@@ -519,6 +516,11 @@ ${newObj.flat(1).join(';\n')}
 @keyframes run {
   0% { transform: translateX(125%) translateY(-125%); }
   100% { transform: translateX(-125%) translateY(100%); }
+}
+
+@keyframes fill {
+  0% { bottom: 0; }
+  100% { bottom: 100%; }
 }
 
 ::selection { background: rgba(172,206,247,0.25); }
