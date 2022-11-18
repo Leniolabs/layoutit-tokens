@@ -5,6 +5,7 @@
 
       <div class="top-actions">
         <a target="_blank" href="https://www.leniolabs.com/services/" style="background: transparent;border: 2px solid #e1d472;color:#e1d472;">Hire our Team!</a>
+        <button v-on:click="downloadZip(JSON.stringify(transformW3C(),null,2), transformCSSvars('CSS'), transformCSSvars('SASS'), transformDSP(), transformTheo(exportFormats.theo), exportFormats.theo)" style="background: transparent;border: 2px solid #e1d472;color:#e1d472;">Download Zip</button>
         <button style="opacity: 0.5;background: transparent;border: 2px solid #54c4c9;color:#54c4c9;">Share URL</button>
         <button style="opacity: 0.5;background:#54c4c9;border: 2px solid #54c4c9">Download Tokens</button>
       </div>
@@ -161,6 +162,7 @@
 <script>
 
 import yaml from "js-yaml";
+import { Z_FILTERED } from "zlib";
 
 
 export default {
@@ -505,6 +507,22 @@ ${newObj.flat(1).join(';\n')}
       }
       this.sets[this.selectedToken].tokens[token].tokens.unshift(tempToken)
     },
+    downloadZip(json, css, sass, dsp, theo, exportformatsTheo) {
+        const JSZip = require('JSZip');
+        var zip = new JSZip();
+        zip.file('W3C.json', json)
+        zip.file('Css.css', css)
+        zip.file('Sass.scss', sass)
+        zip.file(`Theo.${exportformatsTheo}`, theo)
+        zip.generateAsync({ type: "blob"}).then((content) => {
+          let a = document.createElement("a");
+          a.download = "tokens";
+          a.href = window.URL.createObjectURL(content);
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          })
+      }
   }
 }
 </script>
