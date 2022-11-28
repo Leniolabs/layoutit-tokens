@@ -135,7 +135,7 @@
             <pre v-if="selectedOption === 0"><code v-highlight class="json" v-html="JSON.stringify(transformW3C(),null,2)"></code></pre>
             <pre v-if="selectedOption === 1"><code v-highlight class="css" v-html="transformCSSvars('CSS')"></code></pre>
             <pre v-if="selectedOption === 2"><code v-highlight class="scss" v-html="transformCSSvars('SASS')"></code></pre>
-            <pre v-if="selectedOption === 3"><code v-highlight class="css" v-html="transformDSP()"></code></pre>
+            <pre v-if="selectedOption === 3"><code v-highlight class="json" v-html="transformDSP()"></code></pre>
             <pre v-if="selectedOption === 4">
               <div class="theo-specs-radio">
                 <div>
@@ -417,7 +417,33 @@ export default {
   },
   methods: {
     transformDSP() {
-      return "{ DSP Support coming soon! }"
+      const now = (new Date()).toISOString();
+      const updatedBy = "Layoutit" // or Design Tokens Generator
+      var newObj = {
+        dsp_spec_version: "1.0",
+        last_updated_by: updatedBy,
+        last_updated: now,
+        settings: {},
+        entities: []
+      };
+      var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      for (const group of copyObj.tokens) {
+        for (const token of group.tokens) {
+          const { $type } = group;
+          const type = ($type === "color" || $type === "size") ? $type : "custom";
+          const entity = {
+            class: "token",
+            type,
+            id: `${group.$type}_${token.$name}`,
+            value: token.$value,
+            last_updated: now,
+            last_updated_by: updatedBy,
+            description: token.$description || "",
+          };
+          newObj.entities.push(entity);
+        }
+      }
+      return newObj;
     },
     transformTheo(format) {
       var newObj = { props: {} };
