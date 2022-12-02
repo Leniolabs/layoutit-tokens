@@ -464,13 +464,15 @@ export default {
       var newObj = {}
       var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
       for (const group of copyObj.tokens) {
-        newObj[group.$name] = group
         var singleTokens = {}
         for (const item of group.tokens) {
           singleTokens[item.$name] = item
           delete singleTokens[item.$name]["$name"];
         }
-        newObj[group.$name].tokens = singleTokens
+        newObj[group.$name] = {
+          $type: group.$type,
+          ...singleTokens
+        }
         delete newObj[group.$name]["$name"];
       }
       return newObj
