@@ -132,7 +132,7 @@
             </div>
           </div>
           <client-only>
-            <pre v-if="selectedOption === 0"><code v-highlight class="json" v-html="JSON.stringify(transformW3C(),null,2)"></code></pre>
+            <pre v-if="selectedOption === 0"><code v-highlight class="json" v-html="JSON.stringify(transformDTCG(),null,2)"></code></pre>
             <pre v-if="selectedOption === 1"><code v-highlight class="css" v-html="transformCSSvars('CSS')"></code></pre>
             <pre v-if="selectedOption === 2"><code v-highlight class="scss" v-html="transformCSSvars('SASS')"></code></pre>
             <pre v-if="selectedOption === 3"><code v-highlight class="json" v-html="transformDSP()"></code></pre>
@@ -171,7 +171,7 @@ export default {
       selectedOption: 0,
       mode: 'table',
       tokenTypes: ['color','spacing','fontFamily','fontWeight','fontStyle','fontSize','duration','cubicBezier','letterSpacing','lineHeight','opacity','shadow','mediaQuery','z-index','radius','other'],
-      exportOptions: ['W3C','CSS','SASS','DSP','Theo'],
+      exportOptions: ['DTCG','CSS','SASS','DSP','Theo'],
       exportFormats: {
         theo: "JSON"
       },
@@ -460,7 +460,7 @@ export default {
       if (format === "YAML") return yaml.dump(newObj);
       return JSON.stringify(newObj, null, 2);
     },
-    transformW3C() {
+    transformDTCG() {
       var newObj = {}
       var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
       for (const group of copyObj.tokens) {
