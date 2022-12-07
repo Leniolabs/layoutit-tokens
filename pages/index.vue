@@ -54,7 +54,11 @@
               <button @click="$delete(sets[selectedToken].tokens, e)"><icons-delete/></button>
             </div>
 
-            <h3><component :is="`icons-${token.$type}`"/> <input type="text" v-model="token.$name" /> <i>({{ token.tokens.length }})</i></h3>
+            <h3>
+              <component :is="`icons-${token.$type}`"/>
+              <input type="text" v-model="token.$name" />
+              <i>({{ token.tokens.length }})</i>
+            </h3>
 
             <div class="variants" v-if="token.tokens.length > 0">
               <div class="single-variant" v-for="(variant, a) in token.tokens" :key="`variant-${a}`">
@@ -162,6 +166,8 @@
 
 import yaml from "js-yaml";
 import JSZip from 'jszip';
+import { transformTokenTypeByGroupType } from '../utils'
+
 
 export default {
   data() {
@@ -470,7 +476,7 @@ export default {
           delete singleTokens[item.$name]["$name"];
         }
         newObj[group.$name] = {
-          $type: group.$type,
+          $type: transformTokenTypeByGroupType(group.$type),
           ...singleTokens
         }
         delete newObj[group.$name]["$name"];
@@ -500,9 +506,8 @@ export default {
       }
       if (transformType === 'CSS') {
         return `:root {
-${newObj.flat(1).join(';\n')}
-}`
-
+          ${newObj.flat(1).join(';\n')}
+        }`
       }
      },
     changeType(event,token) {
