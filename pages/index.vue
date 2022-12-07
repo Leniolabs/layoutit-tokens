@@ -536,11 +536,12 @@ ${newObj.flat(1).join(';\n')}
     downloadZip(W3C, css, sass, dsp, theo, typesTheo) {
       var zip = new JSZip();
       var tokensZip = zip.folder('Tokens')
+      var typesTheoLowerCase = typesTheo.toLowerCase();
       tokensZip.file('dtcg.json', W3C)
       tokensZip.file('styles.css', css)
       tokensZip.file('styles.scss', sass)
       tokensZip.file('dsp.json', dsp)
-      tokensZip.file(`theo.${typesTheo}`, theo)
+      tokensZip.file(`theo.${typesTheoLowerCase}`, theo)
       tokensZip.generateAsync({ type: 'base64'}).then(function(base64) {
         window.location = 'data:application/zip;base64,' + base64;
       })
