@@ -6,7 +6,7 @@
       <div class="top-actions">
         <a target="_blank" href="https://www.leniolabs.com/services/" style="background: transparent;border: 2px solid #e1d472;color:#e1d472;">Hire our Team!</a>
         <button style="opacity: 0.5;background: transparent;border: 2px solid #54c4c9;color:#54c4c9;">Share URL</button>
-        <button style="opacity: 0.5;background:#54c4c9;border: 2px solid #54c4c9">Download Tokens</button>
+        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZip(JSON.stringify(transformW3C(),null,2), transformCSSvars('CSS'), transformCSSvars('SASS'), JSON.stringify(transformDSP(), null, 2), transformTheo(exportFormats.theo), exportFormats.theo)">Download Tokens</button>
       </div>
     </nav>
 
@@ -132,7 +132,7 @@
             </div>
           </div>
           <client-only>
-            <pre v-if="selectedOption === 0"><code v-highlight class="json" v-html="JSON.stringify(transformW3C(),null,2)"></code></pre>
+            <pre v-if="selectedOption === 0"><code v-highlight class="json" v-html="JSON.stringify(transformDTCG(),null,2)"></code></pre>
             <pre v-if="selectedOption === 1"><code v-highlight class="css" v-html="transformCSSvars('CSS')"></code></pre>
             <pre v-if="selectedOption === 2"><code v-highlight class="scss" v-html="transformCSSvars('SASS')"></code></pre>
             <pre v-if="selectedOption === 3"><code v-highlight class="json" v-html="transformDSP()"></code></pre>
@@ -161,7 +161,7 @@
 <script>
 
 import yaml from "js-yaml";
-
+import JSZip from 'jszip';
 
 export default {
   data() {
@@ -171,7 +171,7 @@ export default {
       selectedOption: 0,
       mode: 'table',
       tokenTypes: ['color','spacing','fontFamily','fontWeight','fontStyle','fontSize','duration','cubicBezier','letterSpacing','lineHeight','opacity','shadow','mediaQuery','z-index','radius','other'],
-      exportOptions: ['W3C','CSS','SASS','DSP','Theo'],
+      exportOptions: ['DTCG','CSS','SASS','DSP','Theo'],
       exportFormats: {
         theo: "JSON"
       },
@@ -460,7 +460,7 @@ export default {
       if (format === "YAML") return yaml.dump(newObj);
       return JSON.stringify(newObj, null, 2);
     },
-    transformW3C() {
+    transformDTCG() {
       var newObj = {}
       var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
       for (const group of copyObj.tokens) {
@@ -532,6 +532,19 @@ ${newObj.flat(1).join(';\n')}
         "$value": ""
       }
       this.sets[this.selectedToken].tokens[token].tokens.unshift(tempToken)
+    },
+    downloadZip(W3C, css, sass, dsp, theo, typesTheo) {
+      var zip = new JSZip();
+      var tokensZip = zip.folder('Tokens')
+      var typesTheoLowerCase = typesTheo.toLowerCase();
+      tokensZip.file('dtcg.json', W3C)
+      tokensZip.file('styles.css', css)
+      tokensZip.file('styles.scss', sass)
+      tokensZip.file('dsp.json', dsp)
+      tokensZip.file(`theo.${typesTheoLowerCase}`, theo)
+      tokensZip.generateAsync({ type: 'base64'}).then(function(base64) {
+        window.location = 'data:application/zip;base64,' + base64;
+      })
     },
   }
 }
