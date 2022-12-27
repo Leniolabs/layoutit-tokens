@@ -6,7 +6,7 @@
       <div class="top-actions">
         <a target="_blank" href="https://www.leniolabs.com/services/" style="background: transparent;border: 2px solid #e1d472;color:#e1d472;">Hire our Team!</a>
         <button style="opacity: 0.5;background: transparent;border: 2px solid #54c4c9;color:#54c4c9;">Share URL</button>
-        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZip(JSON.stringify(transformW3C(),null,2), transformCSSvars('CSS'), transformCSSvars('SASS'), JSON.stringify(transformDSP(), null, 2), transformTheo(exportFormats.theo), exportFormats.theo)">Download Tokens</button>
+        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZip(JSON.stringify(transformDTCG(),null,2), transformCSSvars('CSS'), transformCSSvars('SASS'), JSON.stringify(transformDSP(), null, 2), transformTheo(exportFormats.theo), exportFormats.theo)">Download Tokens</button>
       </div>
     </nav>
 
@@ -54,7 +54,11 @@
               <button @click="$delete(sets[selectedToken].tokens, e)"><icons-delete/></button>
             </div>
 
-            <h3><component :is="`icons-${token.$type}`"/> <input type="text" v-model="token.$name" /> <i>({{ token.tokens.length }})</i></h3>
+            <h3>
+              <component :is="`icons-${token.$type}`"/>
+              <input type="text" v-model="token.$name" />
+              <i>({{ token.tokens.length }})</i>
+            </h3>
 
             <div class="variants" v-if="token.tokens.length > 0">
               <div class="single-variant" v-for="(variant, a) in token.tokens" :key="`variant-${a}`">
@@ -162,6 +166,8 @@
 
 import yaml from "js-yaml";
 import JSZip from 'jszip';
+import { transformTokenTypeByGroupType } from '../utils'
+
 
 export default {
   data() {
@@ -470,7 +476,7 @@ export default {
           delete singleTokens[item.$name]["$name"];
         }
         newObj[group.$name] = {
-          $type: group.$type,
+          $type: transformTokenTypeByGroupType(group.$type),
           ...singleTokens
         }
         delete newObj[group.$name]["$name"];
@@ -500,9 +506,8 @@ export default {
       }
       if (transformType === 'CSS') {
         return `:root {
-${newObj.flat(1).join(';\n')}
-}`
-
+          ${newObj.flat(1).join(';\n')}
+        }`
       }
      },
     changeType(event,token) {
@@ -533,11 +538,11 @@ ${newObj.flat(1).join(';\n')}
       }
       this.sets[this.selectedToken].tokens[token].tokens.unshift(tempToken)
     },
-    downloadZip(W3C, css, sass, dsp, theo, typesTheo) {
+    downloadZip(dtcg, css, sass, dsp, theo, typesTheo) {
       var zip = new JSZip();
       var tokensZip = zip.folder('Tokens')
       var typesTheoLowerCase = typesTheo.toLowerCase();
-      tokensZip.file('dtcg.json', W3C)
+      tokensZip.file('dtcg.json', dtcg)
       tokensZip.file('styles.css', css)
       tokensZip.file('styles.scss', sass)
       tokensZip.file('dsp.json', dsp)
