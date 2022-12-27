@@ -6,7 +6,7 @@
       <div class="top-actions">
         <a target="_blank" href="https://www.leniolabs.com/services/" style="background: transparent;border: 2px solid #e1d472;color:#e1d472;">Hire our Team!</a>
         <button style="opacity: 0.5;background: transparent;border: 2px solid #54c4c9;color:#54c4c9;">Share URL</button>
-        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZip(JSON.stringify(transformW3C(),null,2), transformCSSvars('CSS'), transformCSSvars('SASS'), JSON.stringify(transformDSP(), null, 2), transformTheo(exportFormats.theo), exportFormats.theo)">Download Tokens</button>
+        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZip(JSON.stringify(transformDTCG(),null,2), transformCSSvars('CSS'), transformCSSvars('SASS'), JSON.stringify(transformDSP(), null, 2), transformTheo(exportFormats.theo), exportFormats.theo)">Download Tokens</button>
       </div>
     </nav>
 
@@ -538,11 +538,11 @@ export default {
       }
       this.sets[this.selectedToken].tokens[token].tokens.unshift(tempToken)
     },
-    downloadZip(W3C, css, sass, dsp, theo, typesTheo) {
+    downloadZip(dtcg, css, sass, dsp, theo, typesTheo) {
       var zip = new JSZip();
       var tokensZip = zip.folder('Tokens')
       var typesTheoLowerCase = typesTheo.toLowerCase();
-      tokensZip.file('dtcg.json', W3C)
+      tokensZip.file('dtcg.json', dtcg)
       tokensZip.file('styles.css', css)
       tokensZip.file('styles.scss', sass)
       tokensZip.file('dsp.json', dsp)
