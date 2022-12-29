@@ -129,13 +129,13 @@
 
       <div class="output" :key="`output-${componentKey}`">
         <div style="position:relative;">
-
           <div class="export-options">
             <div v-for="(option, i) in exportOptions" :key="`abc-${i}`" @click="selectedOption = i" :class="{'active': selectedOption === i}">
               {{option}}
             </div>
           </div>
           <client-only>
+            <button class="copy-btn" @click="copyTokenToClipboard()">Copy</button>
             <pre v-if="selectedOption === 0"><code v-highlight class="json" v-html="JSON.stringify(transformDTCG(),null,2)"></code></pre>
             <pre v-if="selectedOption === 1"><code v-highlight class="css" v-html="transformCSSvars('CSS')"></code></pre>
             <pre v-if="selectedOption === 2"><code v-highlight class="scss" v-html="transformCSSvars('SASS')"></code></pre>
@@ -551,6 +551,16 @@ export default {
         window.location = 'data:application/zip;base64,' + base64;
       })
     },
+    copyTokenToClipboard() {
+      let [tokenParentElement] = document.getElementsByTagName("CODE");
+      navigator.clipboard.writeText(tokenParentElement.innerText);
+      let [copyButtonElement] = document.getElementsByClassName("copy-btn");
+      copyButtonElement.innerText = "Copied"
+  
+      setTimeout(() => {
+        copyButtonElement.innerText = "Copy"
+      }, 2000);
+    },
   }
 }
 </script>
@@ -664,10 +674,24 @@ button {
 pre {
   color: #fff;
   overflow: auto;
-  margin: 0;
+  margin: 10px 0 0 0;
   padding: 0;
-  user-select: all;
+  user-select: text;
   height: calc(100vh - 130px);
+}
+
+button.copy-btn {
+  position: absolute;
+  right: 5px;
+  display: flex;
+  flex-flow: column;
+  color: rgba(202, 202, 202, 0.94);
+  font-weight: 700;
+  font-size: 13px;
+  margin-top: 5px;
+  &:hover {
+    color: #ffff;
+  }
 }
 
 
@@ -801,6 +825,7 @@ button.add-token {
     right: 20px;
     display: flex;
     flex-flow: column;
+    margin-top: 5px;
 
     > div {
       display: flex;
