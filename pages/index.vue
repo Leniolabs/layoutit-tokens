@@ -167,6 +167,8 @@
 import yaml from "js-yaml";
 import JSZip from 'jszip';
 import { transformTokenTypeByGroupType } from '../utils'
+import { kebabCase } from '../utils/string'
+import _ from "lodash";
 
 
 export default {
@@ -425,91 +427,82 @@ export default {
     transformDSP() {
       const now = (new Date()).toISOString();
       const updatedBy = "Layoutit" // or Design Tokens Generator
-      var newObj = {
+      var newTokenObj = {
         dsp_spec_version: "1.0",
         last_updated_by: updatedBy,
         last_updated: now,
         settings: {},
         entities: []
       };
-      var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
-      for (const group of copyObj.tokens) {
-        for (const token of group.tokens) {
-          const { $type } = group;
-          const type = ($type === "color" || $type === "size") ? $type : "custom";
-          const entity = {
-            class: "token",
-            type,
-            id: `${group.$type}_${token.$name}`,
-            value: token.$value,
-            last_updated: now,
-            last_updated_by: updatedBy,
-            description: token.$description || "",
-          };
-          newObj.entities.push(entity);
-        }
-      }
-      return newObj;
+      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+
+      const entities = copyObj.tokens.reduce((entitiesAccumulator, group) => {
+        const { $type } = group;
+        return entitiesAccumulator.concat(
+          group.tokens.map((token) => 
+            Object.assign({
+              class: "token",
+              type: ($type === "color" || $type === "size") ? $type : "custom",
+              id: `${$type}_${token.$name}`,
+              value: token.$value,
+              last_updated: now,
+              last_updated_by: updatedBy,
+              description: token.$description || "",  
+            })
+          ))
+      }, [])
+      // Assign entities to object.
+      newTokenObj.entities = entities;
+
+      return newTokenObj;
     },
     transformTheo(format) {
-      var newObj = { props: {} };
-      var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
-      for (const group of copyObj.tokens) {
-        for (const token of group.tokens) {
-          newObj.props[`${group.$type}_${token.$name}`] = {
-            value: token.$value,
-            type: group.$type,
-            category: group.$type
-          }
-        }
-      }
-      if (format === "YAML") return yaml.dump(newObj);
-      return JSON.stringify(newObj, null, 2);
+      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      let newTokenObj = { props: {} };
+
+      const tokenProps = copyObj.tokens.reduce((acc, group) => {
+        group.tokens.forEach((token) => {
+          _.set(acc, `${group.$type}_${token.$name}.value`, token.$value)
+          _.set(acc, `${group.$type}_${token.$name}.type`, group.$type)
+          _.set(acc, `${group.$type}_${token.$name}.category`, group.$type)
+        })
+        return { ...acc };
+      }, {});
+      // Assign object with token props
+      newTokenObj.props = tokenProps;
+    
+      if (format === "YAML") return yaml.dump(newTokenObj);
+      return JSON.stringify(newTokenObj, null, 2);
     },
     transformDTCG() {
-      var newObj = {}
-      var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
-      for (const group of copyObj.tokens) {
-        var singleTokens = {}
-        for (const item of group.tokens) {
-          singleTokens[item.$name] = item
-          delete singleTokens[item.$name]["$name"];
-        }
-        newObj[group.$name] = {
-          $type: transformTokenTypeByGroupType(group.$type),
-          ...singleTokens
-        }
-        delete newObj[group.$name]["$name"];
-      }
-      return newObj
+      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+  
+      const newTokenObj = copyObj.tokens.reduce((accumulatorObj, group) => {
+        group.tokens.forEach((token) => {
+          _.set(accumulatorObj, `${group.$name}.$type`, transformTokenTypeByGroupType(group.$type))
+          _.set(accumulatorObj, `${group.$name}.${token.$name}.$value`, token.$value)
+        })
+        return {...accumulatorObj};
+      }, {});
+
+      return newTokenObj;
     },
     transformCSSvars(transformType) {
-      var newObj = []
-      var copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
-      const kebabCase = string => string.replace(/([a-z])([A-Z])/g, "$1-$2").replace(/[\s_]+/g, '-').toLowerCase();
-      for (const group of copyObj.tokens) {
-        var singleTokens = []
-        for (const item of group.tokens) {
+      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      let tokenPrefix = transformType === 'SASS' ? '$' : '--';
+      const newTokenArr = copyObj.tokens.reduce((tokenAccumulator, group) => {
+        return tokenAccumulator.concat(
+          group.tokens.map((token) => 
+            `${tokenPrefix}${kebabCase(group.$name)}-${token.$name}: ${token.$value}`
+          )
+        );
+      }, []);
 
-          if (transformType === 'SASS') {
-            singleTokens.push(`$${kebabCase(group.$name)}-${item.$name}: ${item.$value}`)
-          }
-          if (transformType === 'CSS') {
-            singleTokens.push(`--${kebabCase(group.$name)}-${item.$name}: ${item.$value}`)
-          }
-         }
-        newObj.push(singleTokens)
-      }
-
-      if (transformType === 'SASS') {
-        return newObj.flat(1).join(';\n');
-      }
-      if (transformType === 'CSS') {
-        return `:root {
-          ${newObj.flat(1).join(';\n')}
-        }`
-      }
-     },
+      if (transformType === 'SASS') return newTokenArr.join(';\n');
+      return `:root {
+        ${newTokenArr.join(';\n')}
+      }`
+    },
     changeType(event,token) {
       token.$type = event.target.value
       token.$name = event.target.value
