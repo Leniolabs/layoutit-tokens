@@ -35,7 +35,7 @@ export default {
       },
       {
         name: "og:image",
-        content: "/meta-image.png",
+        content: "https://tokens.layoutit.com/meta-image.png",
       },
 
       { name: "twitter:card", content: "summary_large_image" },
@@ -46,7 +46,7 @@ export default {
         content:
           "Quickly create Design System tokens and get JSON, CSS and SASS code. Use our Design Tokens generator to quickstart your next project!",
       },
-      { name: "twitter:image", content: "/meta-image.png" },
+      { name: "twitter:image", content: "https://tokens.layoutit.com/meta-image.png" },
       { name: "twitter:creator", content: "Leniolabs_ LLC" },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
