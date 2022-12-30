@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap');
+
+@keyframes run {
+  0% { transform: translateX(125%) translateY(-125%); }
+  100% { transform: translateX(-125%) translateY(100%); }
+}
+
+@keyframes fill {
+  0% { bottom: 0; }
+  100% { bottom: 100%; }
+}
+
+::selection { background: rgba(172,206,247,0.25); }
+::-moz-selection { background: rgba(172,206,247,0.25); }
+
+html { box-sizing: border-box; }
+
+*, *:before, *:after { box-sizing: inherit; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1e1e1e;
+  background: #1e1e1e;
+  user-select: none;
+}
+
+input {
+  font-size: 14px;
+}
+
+nav {
+  background: #000;
+  height: 60px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 999;
+}
+
+h1 {
+  margin: 0;
+  line-height: 60px;
+  color: #fff;
+  font-weight: normal;
+  font-family: "Space Grotesk",Arial, Helvetica, sans-serif;
+  padding-left: 20px;
+  color: #e2d372;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+h2 {
+  margin: 0 0 18px;
+  font-weight: 500;
+  font-family: montserrat, Arial, Helvetica, sans-serif;
+  font-size: 1.17em;
+
+}
+
+h3 {
+  margin: 0;
+  margin-bottom: 15px;
+  font-weight: 500;
+  font-family: montserrat, Arial, Helvetica, sans-serif;
+  color: #1e1e1e;
+  display: flex;
+  align-items: center;
+  input {
+    border: 0;
+    font-weight: 500;
+    font-family: montserrat, Arial, Helvetica, sans-serif;
+    color: #1e1e1e;
+    font-size: 18px;
+  }
+  &:last-child {
+    margin: 0;
+  }
+  svg {
+    width: 24px;
+    height: auto;
+    margin-right: 5px;
+    margin-left: 0px;
+    fill: #888;
+  }
+  i {
+    color:#aaa;
+    padding-left:4px;
+    font-size:18px;
+    font-weight: 400;
+    font-style: normal;
+    display: none;
+  }
+}
+
+button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+pre {
+  color: #fff;
+  overflow: auto;
+  margin: 10px 0 0 0;
+  padding: 0;
+  user-select: text;
+  height: calc(100vh - 130px);
+}
+
+nav button {
+  background: #e1d472;
+  padding: 8px 15px;
+  border-radius: 2px;
+}
+
+input[type="text"]:focus {
+  background: #f6fbf6;
+}
+
+.json:not(.hljs) {
+  color: transparent !important;
+}
+
+.hljs {
+  background: transparent;
+  padding: 0 !important;
+  &.language-css {
+    color: #ddd;
+    .hljs-attr {
+      padding-left: 20px;
+    }
+  }
+  &.language-scss {
+    color: #ddd;
+  }
+  .hljs-built_in {
+    color: #d8d7ac;
+  }
+  .hljs-variable,
+  .hljs-attr {
+    color: #98d6f7;
+  }
+  .hljs-selector-pseudo {
+    color: #cdb682;
+  }
+  .hljs-string {
+    color: #ce9178;
+  }
+  .hljs-number {
+    color: #baccab;
+  }
+  .hljs-punctuation {
+    color: #d4d4d4;
+  }
+}
