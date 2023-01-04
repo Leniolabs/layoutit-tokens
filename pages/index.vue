@@ -6,7 +6,7 @@
       <div class="top-actions">
         <a target="_blank" href="https://www.leniolabs.com/services/" style="background: transparent;border: 2px solid #e1d472;color:#e1d472;">Hire our Team!</a>
         <button style="opacity: 0.5;background: transparent;border: 2px solid #54c4c9;color:#54c4c9;">Share URL</button>
-        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZip(JSON.stringify(transformDTCG(),null,2), transformCSSvars('CSS'), transformCSSvars('SASS'), JSON.stringify(transformDSP(), null, 2), transformTheo(exportFormats.theo), exportFormats.theo)">Download Tokens</button>
+        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZipFile()">Download Tokens</button>
       </div>
     </nav>
 
@@ -165,9 +165,9 @@
 <script>
 
 import yaml from "js-yaml";
-import JSZip from 'jszip';
-import { transformTokenTypeByGroupType } from '../utils'
-import { kebabCase } from '../utils/string'
+import { downloadZip } from '../utils/downloadZip';
+import { transformTokenTypeByGroupType } from '../utils';
+import { kebabCase } from '../utils/string';
 import _ from "lodash";
 
 
@@ -531,18 +531,15 @@ export default {
       }
       this.sets[this.selectedToken].tokens[token].tokens.unshift(tempToken)
     },
-    downloadZip(dtcg, css, sass, dsp, theo, typesTheo) {
-      const zip = new JSZip();
-      const tokensZip = zip.folder('Tokens')
-      const typesTheoLowerCase = typesTheo.toLowerCase();
-      tokensZip.file('dtcg.json', dtcg)
-      tokensZip.file('styles.css', css)
-      tokensZip.file('styles.scss', sass)
-      tokensZip.file('dsp.json', dsp)
-      tokensZip.file(`theo.${typesTheoLowerCase}`, theo)
-      tokensZip.generateAsync({ type: 'base64'}).then(function(base64) {
-        window.location = 'data:application/zip;base64,' + base64;
-      })
+    downloadZipFile() {
+      downloadZip(
+        JSON.stringify(this.transformDTCG(),null,2),
+        this.transformCSSvars('CSS'),
+        this.transformCSSvars('SASS'),
+        JSON.stringify(this.transformDSP(), null, 2),
+        this.transformTheo(this.exportFormats.theo),
+        this.exportFormats.theo
+      )
     },
     copyTokenToClipboard() {
       let [tokenParentElement] = document.getElementsByTagName("CODE");
