@@ -6,7 +6,7 @@
       <div class="top-actions">
         <a target="_blank" href="https://www.leniolabs.com/services/" style="background: transparent;border: 2px solid #e1d472;color:#e1d472;">Hire our Team!</a>
         <button style="opacity: 0.5;background: transparent;border: 2px solid #54c4c9;color:#54c4c9;">Share URL</button>
-        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZip(JSON.stringify(transformDTCG(),null,2), transformCSSvars('CSS'), transformCSSvars('SASS'), JSON.stringify(transformDSP(), null, 2), transformTheo(exportFormats.theo), exportFormats.theo)">Download Tokens</button>
+        <button style="background:#54c4c9;border: 2px solid #54c4c9" @click="downloadZipFile()">Download Tokens</button>
       </div>
     </nav>
 
@@ -165,10 +165,11 @@
 <script>
 
 import yaml from "js-yaml";
-import JSZip from 'jszip';
-import { transformTokenTypeByGroupType } from '../utils'
-import { kebabCase } from '../utils/string'
+import { downloadZip } from '../utils/downloadZip';
+import { transformTokenTypeByGroupType } from '../utils';
+import { kebabCase } from '../utils/string';
 import _ from "lodash";
+import { klona } from 'klona';
 
 
 export default {
@@ -427,19 +428,19 @@ export default {
     transformDSP() {
       const now = (new Date()).toISOString();
       const updatedBy = "Layoutit" // or Design Tokens Generator
-      var newTokenObj = {
+      const newTokenObj = {
         dsp_spec_version: "1.0",
         last_updated_by: updatedBy,
         last_updated: now,
         settings: {},
         entities: []
       };
-      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      const copyObj = klona(this.sets[this.selectedToken]);
 
       const entities = copyObj.tokens.reduce((entitiesAccumulator, group) => {
         const { $type } = group;
         return entitiesAccumulator.concat(
-          group.tokens.map((token) => 
+          group.tokens.map((token) =>
             Object.assign({
               class: "token",
               type: ($type === "color" || $type === "size") ? $type : "custom",
@@ -447,7 +448,7 @@ export default {
               value: token.$value,
               last_updated: now,
               last_updated_by: updatedBy,
-              description: token.$description || "",  
+              description: token.$description || "",
             })
           ))
       }, [])
@@ -457,7 +458,7 @@ export default {
       return newTokenObj;
     },
     transformTheo(format) {
-      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      const copyObj = klona(this.sets[this.selectedToken]);
       let newTokenObj = { props: {} };
 
       const tokenProps = copyObj.tokens.reduce((acc, group) => {
@@ -470,13 +471,13 @@ export default {
       }, {});
       // Assign object with token props
       newTokenObj.props = tokenProps;
-    
+
       if (format === "YAML") return yaml.dump(newTokenObj);
       return JSON.stringify(newTokenObj, null, 2);
     },
     transformDTCG() {
-      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
-  
+      const copyObj = klona(this.sets[this.selectedToken]);
+
       const newTokenObj = copyObj.tokens.reduce((accumulatorObj, group) => {
         group.tokens.forEach((token) => {
           _.set(accumulatorObj, `${group.$name}.$type`, transformTokenTypeByGroupType(group.$type))
@@ -488,11 +489,11 @@ export default {
       return newTokenObj;
     },
     transformCSSvars(transformType) {
-      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      const copyObj = klona(this.sets[this.selectedToken]);
       let tokenPrefix = transformType === 'SASS' ? '$' : '--';
       const newTokenArr = copyObj.tokens.reduce((tokenAccumulator, group) => {
         return tokenAccumulator.concat(
-          group.tokens.map((token) => 
+          group.tokens.map((token) =>
             `${tokenPrefix}${kebabCase(group.$name)}-${token.$name}: ${token.$value}`
           )
         );
@@ -514,7 +515,7 @@ export default {
       token.$name = event.target.innerHTML
     },
     addToken() {
-      var tempToken = {
+      const tempToken = {
         "$type": "other",
         $name: `Token #${this.sets[this.selectedToken].tokens.length+1}`,
         "tokens": [{
@@ -525,31 +526,28 @@ export default {
       this.sets[this.selectedToken].tokens.unshift(tempToken)
      },
     addVariant(token) {
-      var tempToken = {
+      const tempToken = {
         $name: `other-${this.sets[this.selectedToken].tokens[token].tokens.length+1}`,
         "$value": ""
       }
       this.sets[this.selectedToken].tokens[token].tokens.unshift(tempToken)
     },
-    downloadZip(dtcg, css, sass, dsp, theo, typesTheo) {
-      var zip = new JSZip();
-      var tokensZip = zip.folder('Tokens')
-      var typesTheoLowerCase = typesTheo.toLowerCase();
-      tokensZip.file('dtcg.json', dtcg)
-      tokensZip.file('styles.css', css)
-      tokensZip.file('styles.scss', sass)
-      tokensZip.file('dsp.json', dsp)
-      tokensZip.file(`theo.${typesTheoLowerCase}`, theo)
-      tokensZip.generateAsync({ type: 'base64'}).then(function(base64) {
-        window.location = 'data:application/zip;base64,' + base64;
-      })
+    downloadZipFile() {
+      downloadZip(
+        JSON.stringify(this.transformDTCG(),null,2),
+        this.transformCSSvars('CSS'),
+        this.transformCSSvars('SASS'),
+        JSON.stringify(this.transformDSP(), null, 2),
+        this.transformTheo(this.exportFormats.theo),
+        this.exportFormats.theo
+      )
     },
     copyTokenToClipboard() {
       let [tokenParentElement] = document.getElementsByTagName("CODE");
       navigator.clipboard.writeText(tokenParentElement.innerText);
       let [copyButtonElement] = document.getElementsByClassName("copy-btn");
       copyButtonElement.innerText = "Copied"
-  
+
       setTimeout(() => {
         copyButtonElement.innerText = "Copy"
       }, 2000);
