@@ -427,19 +427,19 @@ export default {
     transformDSP() {
       const now = (new Date()).toISOString();
       const updatedBy = "Layoutit" // or Design Tokens Generator
-      var newTokenObj = {
+      const newTokenObj = {
         dsp_spec_version: "1.0",
         last_updated_by: updatedBy,
         last_updated: now,
         settings: {},
         entities: []
       };
-      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      const copyObj = _.cloneDeep(this.sets[this.selectedToken]);
 
       const entities = copyObj.tokens.reduce((entitiesAccumulator, group) => {
         const { $type } = group;
         return entitiesAccumulator.concat(
-          group.tokens.map((token) => 
+          group.tokens.map((token) =>
             Object.assign({
               class: "token",
               type: ($type === "color" || $type === "size") ? $type : "custom",
@@ -447,7 +447,7 @@ export default {
               value: token.$value,
               last_updated: now,
               last_updated_by: updatedBy,
-              description: token.$description || "",  
+              description: token.$description || "",
             })
           ))
       }, [])
@@ -457,7 +457,7 @@ export default {
       return newTokenObj;
     },
     transformTheo(format) {
-      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      const copyObj = _.cloneDeep(this.sets[this.selectedToken]);
       let newTokenObj = { props: {} };
 
       const tokenProps = copyObj.tokens.reduce((acc, group) => {
@@ -470,13 +470,13 @@ export default {
       }, {});
       // Assign object with token props
       newTokenObj.props = tokenProps;
-    
+
       if (format === "YAML") return yaml.dump(newTokenObj);
       return JSON.stringify(newTokenObj, null, 2);
     },
     transformDTCG() {
-      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
-  
+      const copyObj = _.cloneDeep(this.sets[this.selectedToken]);
+
       const newTokenObj = copyObj.tokens.reduce((accumulatorObj, group) => {
         group.tokens.forEach((token) => {
           _.set(accumulatorObj, `${group.$name}.$type`, transformTokenTypeByGroupType(group.$type))
@@ -488,11 +488,11 @@ export default {
       return newTokenObj;
     },
     transformCSSvars(transformType) {
-      const copyObj = JSON.parse(JSON.stringify(this.sets[this.selectedToken]));
+      const copyObj = _.cloneDeep(this.sets[this.selectedToken]);
       let tokenPrefix = transformType === 'SASS' ? '$' : '--';
       const newTokenArr = copyObj.tokens.reduce((tokenAccumulator, group) => {
         return tokenAccumulator.concat(
-          group.tokens.map((token) => 
+          group.tokens.map((token) =>
             `${tokenPrefix}${kebabCase(group.$name)}-${token.$name}: ${token.$value}`
           )
         );
@@ -514,7 +514,7 @@ export default {
       token.$name = event.target.innerHTML
     },
     addToken() {
-      var tempToken = {
+      const tempToken = {
         "$type": "other",
         $name: `Token #${this.sets[this.selectedToken].tokens.length+1}`,
         "tokens": [{
@@ -525,16 +525,16 @@ export default {
       this.sets[this.selectedToken].tokens.unshift(tempToken)
      },
     addVariant(token) {
-      var tempToken = {
+      const tempToken = {
         $name: `other-${this.sets[this.selectedToken].tokens[token].tokens.length+1}`,
         "$value": ""
       }
       this.sets[this.selectedToken].tokens[token].tokens.unshift(tempToken)
     },
     downloadZip(dtcg, css, sass, dsp, theo, typesTheo) {
-      var zip = new JSZip();
-      var tokensZip = zip.folder('Tokens')
-      var typesTheoLowerCase = typesTheo.toLowerCase();
+      const zip = new JSZip();
+      const tokensZip = zip.folder('Tokens')
+      const typesTheoLowerCase = typesTheo.toLowerCase();
       tokensZip.file('dtcg.json', dtcg)
       tokensZip.file('styles.css', css)
       tokensZip.file('styles.scss', sass)
@@ -549,7 +549,7 @@ export default {
       navigator.clipboard.writeText(tokenParentElement.innerText);
       let [copyButtonElement] = document.getElementsByClassName("copy-btn");
       copyButtonElement.innerText = "Copied"
-  
+
       setTimeout(() => {
         copyButtonElement.innerText = "Copy"
       }, 2000);
