@@ -169,6 +169,7 @@ import { downloadZip } from '../utils/downloadZip';
 import { transformTokenTypeByGroupType } from '../utils';
 import { kebabCase } from '../utils/string';
 import _ from "lodash";
+import { klona } from 'klona';
 
 
 export default {
@@ -434,7 +435,7 @@ export default {
         settings: {},
         entities: []
       };
-      const copyObj = _.cloneDeep(this.sets[this.selectedToken]);
+      const copyObj = klona(this.sets[this.selectedToken]);
 
       const entities = copyObj.tokens.reduce((entitiesAccumulator, group) => {
         const { $type } = group;
@@ -457,7 +458,7 @@ export default {
       return newTokenObj;
     },
     transformTheo(format) {
-      const copyObj = _.cloneDeep(this.sets[this.selectedToken]);
+      const copyObj = klona(this.sets[this.selectedToken]);
       let newTokenObj = { props: {} };
 
       const tokenProps = copyObj.tokens.reduce((acc, group) => {
@@ -475,7 +476,7 @@ export default {
       return JSON.stringify(newTokenObj, null, 2);
     },
     transformDTCG() {
-      const copyObj = _.cloneDeep(this.sets[this.selectedToken]);
+      const copyObj = klona(this.sets[this.selectedToken]);
 
       const newTokenObj = copyObj.tokens.reduce((accumulatorObj, group) => {
         group.tokens.forEach((token) => {
@@ -488,7 +489,7 @@ export default {
       return newTokenObj;
     },
     transformCSSvars(transformType) {
-      const copyObj = _.cloneDeep(this.sets[this.selectedToken]);
+      const copyObj = klona(this.sets[this.selectedToken]);
       let tokenPrefix = transformType === 'SASS' ? '$' : '--';
       const newTokenArr = copyObj.tokens.reduce((tokenAccumulator, group) => {
         return tokenAccumulator.concat(
