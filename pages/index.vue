@@ -164,11 +164,11 @@
 
 <script>
 
-import yaml from "js-yaml";
+import yaml from 'js-yaml';
 import { downloadZip } from '../utils/downloadZip';
 import { transformTokenTypeByGroupType } from '../utils';
 import { kebabCase } from '../utils/string';
-import _ from "lodash";
+import { setNestedProperty } from '../utils/setNestedProperty';
 import { klona } from 'klona';
 
 
@@ -463,9 +463,9 @@ export default {
 
       const tokenProps = copyObj.tokens.reduce((acc, group) => {
         group.tokens.forEach((token) => {
-          _.set(acc, `${group.$type}_${token.$name}.value`, token.$value)
-          _.set(acc, `${group.$type}_${token.$name}.type`, group.$type)
-          _.set(acc, `${group.$type}_${token.$name}.category`, group.$type)
+          setNestedProperty(acc, `${group.$type}_${token.$name}.value`, token.$value);
+          setNestedProperty(acc, `${group.$type}_${token.$name}.type`, group.$type);
+          setNestedProperty(acc, `${group.$type}_${token.$name}.category`, group.$type);
         })
         return { ...acc };
       }, {});
@@ -480,8 +480,8 @@ export default {
 
       const newTokenObj = copyObj.tokens.reduce((accumulatorObj, group) => {
         group.tokens.forEach((token) => {
-          _.set(accumulatorObj, `${group.$name}.$type`, transformTokenTypeByGroupType(group.$type))
-          _.set(accumulatorObj, `${group.$name}.${token.$name}.$value`, token.$value)
+          setNestedProperty(accumulatorObj,`${group.$name}.$type`, transformTokenTypeByGroupType(group.$type));
+          setNestedProperty(accumulatorObj, `${group.$name}.${token.$name}.$value`, token.$value);
         })
         return {...accumulatorObj};
       }, {});
