@@ -25,29 +25,30 @@ export default {
         content: "Leniolabs_ LLC",
       },
 
-      { name: "og:type", content: "website" },
-      { name: "og:url", content: "https://tokens.layoutit.com" },
-      { name: "og:title", content: "Design Tokens Generator" },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://tokens.layoutit.com" },
+      { property: "og:title", content: "Design Tokens Generator" },
       {
-        name: "og:description",
+        property: "og:description",
         content:
           "Quickly create Design System tokens and get JSON, CSS and SASS code. Use our Design Tokens generator to quickstart your next project!",
       },
       {
-        name: "og:image",
+        property: "og:image",
         content: "https://tokens.layoutit.com/meta-image.png",
       },
 
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:url", content: "https://tokens.layoutit.com" },
-      { name: "twitter:title", content: "Design Tokens Generator" },
+      { property: "twitter:card", content: "summary_large_image" },
+      { property: "twitter:url", content: "https://tokens.layoutit.com" },
+      { property: "twitter:title", content: "Design Tokens Generator" },
       {
-        name: "twitter:description",
+        property: "twitter:description",
         content:
           "Quickly create Design System tokens and get JSON, CSS and SASS code. Use our Design Tokens generator to quickstart your next project!",
       },
-      { name: "twitter:image", content: "https://tokens.layoutit.com/meta-image.png" },
-      { name: "twitter:creator", content: "Leniolabs_ LLC" },
+      { property: "twitter:image", content: "https://tokens.layoutit.com/meta-image.png" },
+
+      { property: "twitter:creator", content: "Leniolabs_ LLC" },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
