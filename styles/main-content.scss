@@ -1,0 +1,214 @@
+button.add-token {
+  color: #888;
+  display: inline-flex;
+  align-items: center;
+  svg {
+    stroke: #888;
+    margin-right: 3px;
+  }
+  &:hover {
+    color: #01579b;
+
+    svg {
+      stroke: #01579b;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  padding-left: 220px;
+  padding-right: 450px;
+  padding-top: 60px;
+  @media only screen and (max-width: 1340px) {
+    padding-right: 350px;
+  }
+  @media only screen and (max-width: 1240px) {
+    padding-left: 0px;
+  }
+  @media only screen and (max-width: 1120px) {
+    padding-right: 0px;
+    flex-direction: column;
+  }
+  > * {
+    flex: 1;
+  }
+  .content {
+    padding: 20px;
+    position: relative;
+    background: #1e1e1e;
+    color: #fff;
+
+    button {
+      padding: 5px 10px;
+    }
+  }
+}
+
+.token-group {
+  border-radius: 3px;
+  color: #888;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  > * {
+    flex: 1;
+  }
+  button {
+    color:#333;
+    padding: 10px 15px !important;
+    border-radius: 2px;
+
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    svg {
+      width: 20px;
+      margin-right: 5px;
+      fill: #ddd;
+      display: none;
+    }
+    &:hover {
+      background: #eee;
+    }
+  }
+}
+
+
+
+.single-token {
+  margin-bottom: 12px;
+  position: relative;
+  background: #fff;
+  padding: 20px;
+  padding-top: 15px;
+  border-radius: 3px;
+  box-shadow: 0 0 6px #000;
+
+  &:not(:last-child):before {
+    content: "";
+    background: #fff;
+    width: 5px;
+    height: 15px;
+    position: absolute;
+    bottom: -15px;
+    left: 25px;
+    z-index: 9;
+  }
+  .variants {
+  max-height: 270px;
+  overflow: auto;
+  }
+  .single-variant {
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    gap: 5px;
+
+    > * {
+      flex: 1;
+    }
+
+    button {
+      position: relative;
+      top: 0;
+      right: 0;
+    }
+    input {
+      padding: 11px;
+      border: 1px #ccc solid;
+      border-radius: 2px;
+    }
+    > *:last-child {
+      max-width: 35px;
+      min-width: 35px;
+
+      svg {
+        stroke: #888;
+        stroke-width: 9px;
+      }
+
+      &:hover svg {
+        stroke: red;
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+
+.actions {
+  position: absolute;
+  top: 15px;
+  right: 18px;
+  select {
+    border: 0;
+    border-radius: 2px;
+    color: #666;
+    max-width: 125px;
+    text-align: right;
+    background: #fff;
+    cursor: pointer;
+    &:hover {
+      color: #333;
+    }
+    }
+
+  button {
+    padding-left: 0 !important;
+
+    svg {
+      width: 18px;
+      fill: #888;
+
+    }
+    &:hover svg {
+      fill: red;
+    }
+  }
+}
+
+
+.content-tokens {
+  display: flex;
+  flex-direction: column;
+  &:empty:after {
+    content: "No Tokens in this set. \a Add one to start!";
+    background: #151515;
+    white-space: pre;
+    line-height: 24px;
+    color: #ddd;
+    padding: 35px 20px;
+    text-align: center;
+  }
+}
+
+.top-actions {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+  @media only screen and (max-width: 1120px) {
+    display: none;
+  }
+  a,
+  button {
+    display:inline-block;
+    padding: 8px 15px;
+    font-family: "Space Grotesk",Arial, Helvetica, sans-serif;
+    margin-left: 10px;
+    text-decoration: none;
+    font-size: 13px;
+  }
+}
+
+button[disabled] {
+  opacity: 0.5;
+  cursor: initial;
+
+}

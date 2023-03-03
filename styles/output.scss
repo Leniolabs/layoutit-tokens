@@ -1,0 +1,90 @@
+.output {
+  padding: 15px;
+  padding-left: 0;
+  background: #1e1e1e;
+  color: #fff;
+  width: 450px;
+  position: fixed;
+  right: 0;
+  top: 60px;
+  bottom: 0;
+  @media only screen and (max-width: 1340px) {
+    width: 350px;
+  }
+  @media only screen and (max-width: 1120px) {
+    position: relative;
+    top: 0;
+    padding-left: 15px;
+    width: 100%;
+  }
+
+  > div {
+    background: #1e1e1e;
+    background: #151515;
+    //border: 1px solid #444;
+    padding: 10px;
+    padding-right: 15px;
+    padding-top: 30px;
+    color: #fff;
+    border-radius: 3px;
+  }
+  .export-options {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    display: flex;
+    font-size: 14px;
+
+
+    > div {
+      flex: 1;
+      text-align: center;
+      padding: 7px 10px;
+      cursor: pointer;
+      opacity: 0.75;
+      border-right: 1px solid #1e1e1e;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.active {
+        background: #151515;
+        font-weight: bold;
+        opacity: 1;
+      }
+    }
+  }
+
+  .theo-specs-radio {
+    position: absolute;
+    right: 20px;
+    display: flex;
+    flex-flow: column;
+    margin-top: 5px;
+
+    > div {
+      display: flex;
+
+      &:first-child {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  button.copy-btn {
+    position: absolute;
+    right: 5px;
+    display: flex;
+    flex-flow: column;
+    color: rgba(202, 202, 202, 0.94);
+    font-weight: 700;
+    font-size: 13px;
+    margin-top: 5px;
+    &:hover {
+      color: #ffff;
+    }
+  }
+}
